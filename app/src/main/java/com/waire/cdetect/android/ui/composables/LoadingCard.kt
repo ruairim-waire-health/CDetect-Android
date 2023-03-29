@@ -8,7 +8,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.waire.cdetect.android.ui.theme.grid_1
+import androidx.compose.ui.unit.dp
+import com.waire.cdetect.android.ui.theme.Waire
 
 @Composable
 fun LoadingCard(
@@ -17,12 +18,12 @@ fun LoadingCard(
     Card(
         modifier = modifier.aspectRatio(1.33f),
         backgroundColor = MaterialTheme.colors.surface,
-        elevation = grid_1
+        elevation = 0.dp
     ) {
         Box {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = MaterialTheme.colors.secondary
+                color = Waire
             )
         }
     }

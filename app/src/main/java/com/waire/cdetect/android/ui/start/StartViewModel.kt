@@ -17,7 +17,7 @@ class StartViewModel @Inject constructor(
     private val deviceScan: DeviceScanInteractor
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<DeviceScanState>(DeviceScanState.Loading)
+    private val _uiState = MutableStateFlow<DeviceScanState>(DeviceScanState.Idle)
     val uiState: StateFlow<DeviceScanState> = _uiState
 
     private var scanJob: Job? = null
