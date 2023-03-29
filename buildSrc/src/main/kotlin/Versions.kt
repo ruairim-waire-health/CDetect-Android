@@ -1,4 +1,5 @@
 object Versions {
+    const val permissionsHandlerVersion: String = "0.21.1-beta"
     const val androidCoreVersion: String = "1.7.0"
     const val composeVersion: String = "1.2.0"
     const val composeRuntimeVersion: String = "1.2.0"
@@ -19,4 +20,5 @@ object Versions {
     const val mockitoKotlinVersion = "4.0.0"
     const val mockitoAndroidVersion = "4.3.1"
     const val okHttpVersion = "4.9.3"
+    const val cdetectSdkVersion = "2.0.1"
 }

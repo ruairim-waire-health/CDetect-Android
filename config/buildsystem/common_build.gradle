@@ -98,4 +98,7 @@ dependencies {
     // debug test
     debugImplementation(Deps.composeuiTooling)
     debugImplementation(Deps.composeuiManifest)
+
+    // sdk
+    implementation(Deps.androidSDK)
 }

@@ -6,7 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.waire.cdetect.android.models.UiDevice
 import com.waire.cdetect.android.ui.start.StartScreen
+import com.wairehealth.androiddevelopmentkit.Utilites.Log
 
 @Composable
 fun Navigation(
@@ -23,7 +25,9 @@ fun Navigation(
             route = Navigator.Home.path
         ) {
             composable(Navigator.Start.path) {
-                StartScreen(modifier = modifier)
+                StartScreen(modifier = modifier, onDeviceSelected = {
+                    Log.d("Device found", it.name + it.address + it.rssi)
+                })
             }
 //            composable(Navigator.Favourites.path) {
 //                FavouritesScreen(modifier = modifier)

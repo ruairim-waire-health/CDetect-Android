@@ -33,4 +33,6 @@ object Deps {
     const val mockitoAndroid = "org.mockito:mockito-android:${Versions.mockitoAndroidVersion}"
     const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okHttpVersion}"
     const val composeuiManifest = "androidx.compose.ui:ui-test-manifest:${Versions.composeVersion}"
+    const val permissionsHandler = "com.google.accompanist:accompanist-permissions:${Versions.permissionsHandlerVersion}"
+    const val androidSDK = "com.wairehealth.androiddevelopmentsdk:wairehealth-android-sdk:${Versions.cdetectSdkVersion}"
 }

@@ -53,10 +53,8 @@ dependencies {
 
     implementation project(Modules.domain)
     implementation project(Modules.data)
-
-    implementation project(Modules.domain)
-    implementation project(Modules.data)
     implementation(Deps.icons)
+    implementation(Deps.permissionsHandler)
     testImplementation(Deps.jUnit)
     testImplementation(Deps.coroutinesTest)
     testImplementation(Deps.architectureTest)
