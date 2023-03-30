@@ -6,6 +6,7 @@ import com.waire.cdetect.domain.model.CResult
 import com.waire.cdetect.domain.repository.DeviceDataSource
 import com.waire.cdetect.domain.repository.DeviceRepository
 import com.wairehealth.androiddevelopmentkit.api.Advertisement
+import com.wairehealth.androiddevelopmentkit.api.Peripheral
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -21,5 +22,7 @@ class DeviceRepositoryImpl @Inject constructor(
     override suspend fun startDeviceScan(): CResult<Flow<Advertisement>> =
         withContext(ioDispatcher) { dataSource.startScan() }
 
-
+    override suspend fun deviceConnect(deviceAddress: String): Peripheral {
+        return withContext(ioDispatcher) { dataSource.connectToDevice(deviceAddress) }
+    }
 }
