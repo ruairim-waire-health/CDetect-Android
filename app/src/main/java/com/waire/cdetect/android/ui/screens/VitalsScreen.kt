@@ -1,11 +1,11 @@
-package com.waire.cdetect.android.ui.vitals
+package com.waire.cdetect.android.ui.screens
 
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.waire.cdetect.android.ui.SharedViewModel
+import com.waire.cdetect.android.ui.viewmodel.SharedViewModel
 
 @Composable
 fun VitalsScreen(modifier: Modifier, viewModel: SharedViewModel, navController: NavHostController) {

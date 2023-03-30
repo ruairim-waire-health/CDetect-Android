@@ -17,10 +17,11 @@ import androidx.navigation.NavHostController
 import com.waire.cdetect.android.R
 import com.waire.cdetect.android.mapper.UiMapper.toUiDevice
 import com.waire.cdetect.android.models.UiDevice
-import com.waire.cdetect.android.ui.SharedViewModel
 import com.waire.cdetect.android.ui.composables.DeviceListCard
 import com.waire.cdetect.android.ui.composables.LoadingCard
+import com.waire.cdetect.android.ui.state.DeviceScanState
 import com.waire.cdetect.android.ui.theme.*
+import com.waire.cdetect.android.ui.viewmodel.SharedViewModel
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Bluetooth
@@ -37,7 +38,7 @@ fun StartScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val uiState = sharedViewModel.uiState.collectAsState().value
+        val scanState = sharedViewModel.uiScanState.collectAsState().value
 
         Image(
             painter = painterResource(id = R.drawable.logo),
@@ -47,22 +48,23 @@ fun StartScreen(
                 .padding(end = grid_4)
                 .padding(grid_8),
         )
-        when (uiState) {
-            is DeviceScanState.Loading -> LoadingCard(modifier = Modifier.fillMaxWidth())
-            is DeviceScanState.Success -> {
+        when (scanState) {
+            is DeviceScanState.Loading ->
+                LoadingCard(modifier = Modifier.fillMaxWidth())
+            is DeviceScanState.Success ->
                 DeviceListCard(
                     modifier = Modifier.fillMaxWidth(),
-                    devices = mutableListOf(uiState.devices.toUiDevice()),
+                    devices = mutableListOf(scanState.devices.toUiDevice()),
                     onDeviceSelected = onDeviceSelected,
                     navController = navController
                 )
-            }
             is DeviceScanState.Error -> {
-                Text(text = "Oops!: ${uiState.exception.message}")
+                Text(text = "Oops!: ${scanState.exception.message}")
             }
             is DeviceScanState.Idle -> {
                 // NO_OP
             }
+            else -> {}
         }
         Spacer(modifier = Modifier.weight(1f))
 

@@ -17,11 +17,7 @@ class DeviceDataSourceImpl @Inject constructor() : DeviceDataSource {
     override suspend fun startScan(): CResult<Flow<Advertisement>> =
         runCatching { bleController.discoverDevices() }
 
-    override suspend fun connectToDevice(deviceAddress: String): Peripheral {
-        return bleController.createPeripheral(deviceAddress)
-    }
-
-    companion object {
-        const val SCAN_DURATION_MILLIS = 5000
+    override suspend fun connectToDevice(deviceAddress: String): CResult<Peripheral> {
+        return runCatching {bleController.createPeripheral(deviceAddress) }
     }
 }

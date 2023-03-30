@@ -22,7 +22,7 @@ class DeviceRepositoryImpl @Inject constructor(
     override suspend fun startDeviceScan(): CResult<Flow<Advertisement>> =
         withContext(ioDispatcher) { dataSource.startScan() }
 
-    override suspend fun deviceConnect(deviceAddress: String): Peripheral {
+    override suspend fun deviceConnect(deviceAddress: String): CResult<Peripheral> {
         return withContext(ioDispatcher) { dataSource.connectToDevice(deviceAddress) }
     }
 }
