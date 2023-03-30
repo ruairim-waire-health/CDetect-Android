@@ -14,6 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.navigation.NavHostController
 import com.waire.cdetect.android.R
 import com.waire.cdetect.android.mapper.UiMapper.toUiDevice
 import com.waire.cdetect.android.models.UiDevice
@@ -28,7 +30,9 @@ import compose.icons.evaicons.outline.Bluetooth
 fun StartScreen(
     modifier: Modifier = Modifier,
     onDeviceSelected: (uiDevice: UiDevice) -> Unit,
-    viewModel: StartViewModel = hiltViewModel()
+    viewModel: StartViewModel = hiltViewModel(),
+    sharedViewModel: ViewModel,
+    navController: NavHostController
 ) {
     Column(
         modifier = modifier.padding(vertical = grid_8, horizontal = grid_6),
@@ -54,7 +58,8 @@ fun StartScreen(
                 DeviceListCard(
                     modifier = Modifier.fillMaxWidth(),
                     devices = mutableListOf(uiState.devices.toUiDevice()),
-                    onDeviceSelected = onDeviceSelected
+                    onDeviceSelected = onDeviceSelected,
+                    navController = navController
                 )
             }
             is DeviceScanState.Error -> {

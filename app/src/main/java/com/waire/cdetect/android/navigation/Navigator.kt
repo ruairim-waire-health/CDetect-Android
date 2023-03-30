@@ -3,8 +3,6 @@ package com.waire.cdetect.android.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Navigator(
@@ -15,6 +13,7 @@ sealed class Navigator(
         fun fromString(route: String): Navigator {
             return when (route) {
                 Start.path -> Start
+                Vitals.path -> Vitals
                 else -> Home
             }
         }
@@ -22,7 +21,7 @@ sealed class Navigator(
 
     object Home : Navigator("home")
     object Start : Navigator("start", Icons.Filled.Phone)
-    object Favourites : Navigator("profile", Icons.Filled.Person)
+    object Vitals : Navigator("vitals", Icons.Filled.Person)
 
     val title = path.replaceFirstChar(Char::uppercase)
 }

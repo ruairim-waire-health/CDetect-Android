@@ -19,7 +19,7 @@ fun BottomNavigationBar(
     ) {
         listOf(
             Navigator.Start,
-            Navigator.Favourites
+            Navigator.Vitals
         ).forEach { destination ->
             BottomNavigationItem(
                 selected = currentNavigator.path == destination.path,

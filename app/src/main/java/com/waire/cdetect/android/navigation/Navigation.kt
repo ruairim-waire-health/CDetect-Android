@@ -2,19 +2,23 @@ package com.waire.cdetect.android.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.waire.cdetect.android.models.UiDevice
+import com.waire.cdetect.android.ui.SharedViewModel
 import com.waire.cdetect.android.ui.start.StartScreen
-import com.wairehealth.androiddevelopmentkit.Utilites.Log
+import com.waire.cdetect.android.ui.vitals.VitalsScreen
 
 @Composable
 fun Navigation(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
+
+    val viewModel: SharedViewModel = viewModel()
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -25,13 +29,16 @@ fun Navigation(
             route = Navigator.Home.path
         ) {
             composable(Navigator.Start.path) {
-                StartScreen(modifier = modifier, onDeviceSelected = {
-                    Log.d("Device found", it.name + it.address + it.rssi)
-                })
+                StartScreen(
+                    modifier = modifier,
+                    onDeviceSelected = { viewModel.onDeviceSelected(it) },
+                    sharedViewModel = viewModel,
+                    navController = navController
+                )
             }
-//            composable(Navigator.Favourites.path) {
-//                FavouritesScreen(modifier = modifier)
-//            }
+            composable(Navigator.Vitals.path) {
+                VitalsScreen(modifier = modifier, viewModel, navController)
+            }
         }
     }
 }
