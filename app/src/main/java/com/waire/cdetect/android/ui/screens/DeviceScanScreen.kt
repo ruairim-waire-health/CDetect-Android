@@ -64,13 +64,12 @@ fun StartScreen(
             is DeviceScanState.Idle -> {
                 // NO_OP
             }
-            else -> {}
         }
         Spacer(modifier = Modifier.weight(1f))
 
         FloatingActionButton(
             modifier = Modifier.size(grid_21),
-            onClick = { sharedViewModel.startScan() },
+            onClick = { sharedViewModel.startScanFromBoundedService() },
             backgroundColor = MaterialTheme.colors.surface
         ) {
             Icon(

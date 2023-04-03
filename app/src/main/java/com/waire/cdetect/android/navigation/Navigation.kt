@@ -2,7 +2,6 @@ package com.waire.cdetect.android.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,10 +13,11 @@ import com.waire.cdetect.android.ui.screens.VitalsScreen
 @Composable
 fun Navigation(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    sharedViewModel: SharedViewModel
 ) {
 
-    val viewModel: SharedViewModel = viewModel()
+//    val viewModel: SharedViewModel = viewModel()
 
     NavHost(
         modifier = modifier,
@@ -31,13 +31,13 @@ fun Navigation(
             composable(Navigator.Start.path) {
                 StartScreen(
                     modifier = modifier,
-                    onDeviceSelected = { viewModel.onDeviceSelected(it) },
-                    sharedViewModel = viewModel,
+                    onDeviceSelected = { sharedViewModel.onDeviceSelectedUsingBoundedService(it) },
+                    sharedViewModel = sharedViewModel,
                     navController = navController
                 )
             }
             composable(Navigator.Vitals.path) {
-                VitalsScreen(modifier = modifier, viewModel, navController)
+                VitalsScreen(modifier = modifier, sharedViewModel, navController)
             }
         }
     }

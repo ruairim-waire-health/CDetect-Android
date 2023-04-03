@@ -61,4 +61,6 @@ dependencies {
     testImplementation(Deps.architectureTest)
     testImplementation(Deps.mockitoKotlin)
     testImplementation(Deps.mockWebServer)
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 }

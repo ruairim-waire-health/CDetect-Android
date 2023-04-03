@@ -12,9 +12,10 @@ import androidx.navigation.compose.rememberNavController
 import com.waire.cdetect.android.navigation.Navigation
 import com.waire.cdetect.android.navigation.Navigator
 import com.waire.cdetect.android.ui.composables.BottomNavigationBar
+import com.waire.cdetect.android.ui.viewmodel.SharedViewModel
 
 @Composable
-fun CDetectScaffold(modifier: Modifier) {
+fun CDetectScaffold(modifier: Modifier, sharedViewModel: SharedViewModel) {
     val navController = rememberNavController()
     val navBackStackEntry = navController.currentBackStackEntryAsState()
 
@@ -43,7 +44,8 @@ fun CDetectScaffold(modifier: Modifier) {
         ) {
             Navigation(
                 modifier = modifier,
-                navController = navController
+                navController = navController,
+                sharedViewModel = sharedViewModel
             )
         }
     }

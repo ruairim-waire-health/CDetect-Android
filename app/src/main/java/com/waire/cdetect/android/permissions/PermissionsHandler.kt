@@ -14,10 +14,11 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.waire.cdetect.android.ui.CDetectScaffold
+import com.waire.cdetect.android.ui.viewmodel.SharedViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun PermissionsHandler() {
+fun PermissionsHandler(sharedViewModel: SharedViewModel) {
 
     val permissionState =
         rememberPermissionState(permission = Manifest.permission.ACCESS_FINE_LOCATION)
@@ -38,7 +39,7 @@ fun PermissionsHandler() {
 
     when {
         permissionState.hasPermission -> {
-            CDetectScaffold(modifier = Modifier.fillMaxSize())
+            CDetectScaffold(modifier = Modifier.fillMaxSize(), sharedViewModel)
         }
         permissionState.shouldShowRationale -> {
             Column {

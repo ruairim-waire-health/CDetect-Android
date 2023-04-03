@@ -3,6 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        mavenLocal()
     }
 }
 
@@ -12,7 +13,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url "https://dl.cloudsmith.io/CpiHQZnW8trW64zg/waire-health-e3Q/waire-health-sdk/maven/"}
+        // Note: disabling for development, using publishing to mavenLocal() instead
+//        maven { url "https://dl.cloudsmith.io/CpiHQZnW8trW64zg/waire-health-e3Q/waire-health-sdk/maven/"}
+        mavenLocal()
     }
 }
 rootProject.name = "CDetect-Android"

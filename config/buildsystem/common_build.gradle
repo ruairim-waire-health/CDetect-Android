@@ -100,5 +100,7 @@ dependencies {
     debugImplementation(Deps.composeuiManifest)
 
     // sdk
-    implementation(Deps.androidSDK)
+    // Note: disabling for development, using publishing to mavenLocal() instead
+//    implementation(Deps.androidSDK)
+    implementation 'com.wairehealth.androiddevelopmentsdk:wairehealth-android-sdk:2.0.0'
 }
