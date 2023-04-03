@@ -1,4 +1,4 @@
-package com.waire.cdetect.android.ui.start
+package com.waire.cdetect.android.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

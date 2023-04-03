@@ -18,6 +18,6 @@ class DeviceDataSourceImpl @Inject constructor() : DeviceDataSource {
         runCatching { bleController.discoverDevices() }
 
     override suspend fun connectToDevice(deviceAddress: String): CResult<Peripheral> {
-        return runCatching {bleController.createPeripheral(deviceAddress) }
+        return runCatching { bleController.createPeripheral(deviceAddress) }
     }
 }

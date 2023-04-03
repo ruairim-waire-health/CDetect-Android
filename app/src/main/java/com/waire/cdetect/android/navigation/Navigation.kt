@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.waire.cdetect.android.ui.viewmodel.SharedViewModel
-import com.waire.cdetect.android.ui.start.StartScreen
+import com.waire.cdetect.android.ui.screens.StartScreen
 import com.waire.cdetect.android.ui.screens.VitalsScreen
 
 @Composable
