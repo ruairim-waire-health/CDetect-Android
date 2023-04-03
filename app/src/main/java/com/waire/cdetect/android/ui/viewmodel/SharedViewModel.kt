@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.waire.cdetect.android.mapper.UiMapper.toUiVital
 import com.waire.cdetect.android.models.UiDevice
+import com.waire.cdetect.android.models.UiVital
 import com.waire.cdetect.android.ui.state.DeviceConnectState
 import com.waire.cdetect.android.ui.state.DeviceScanState
 import com.wairehealth.androiddevelopmentkit.BluetoothBoundService
@@ -31,8 +33,8 @@ open class SharedViewModel @Inject constructor(application: Application) :
     private val _uiConnectState = MutableStateFlow<DeviceConnectState>(DeviceConnectState.Idle)
     val uiConnectState: StateFlow<DeviceConnectState> = _uiConnectState
 
-    private val _cDetectPayload: MutableLiveData<WaireData> = MutableLiveData()
-    val cDetectPayload: MutableLiveData<WaireData> = _cDetectPayload
+    private val _cDetectPayload: MutableLiveData<UiVital> = MutableLiveData()
+    val cDetectPayload: MutableLiveData<UiVital> = _cDetectPayload
 
     fun setBoundService(waireSdkBoundService: BluetoothBoundService) {
         sdkBoundService = waireSdkBoundService
@@ -58,8 +60,9 @@ open class SharedViewModel @Inject constructor(application: Application) :
     }
 
     fun onDeviceSelectedUsingBoundedService(device: UiDevice) {
-        val result = runCatching { sdkBoundService.connectToDeviceFromBoundedService(device.address) }
-        when (result) {
+        when (val result = runCatching {
+            sdkBoundService.connectToDeviceFromBoundedService(device.address)
+        }) {
             is UiResult.Success ->
                 viewModelScope.launch {
                     try {
@@ -67,12 +70,55 @@ open class SharedViewModel @Inject constructor(application: Application) :
                         _uiConnectState.value = DeviceConnectState.Success(peripheral)
                         peripheral.connect()
                         delay(3000)
-                        peripheral.observeData { }.collect { payload ->
-                            _cDetectPayload.value = payload
-                            android.util.Log.d(
-                                "SharedViewModel: ",
-                                "onDeviceSelected: " + payload.toString()
-                            )
+                        peripheral.observeData { }.collect { waireData ->
+                            when (waireData) {
+                                is WaireData.DevicePayload -> {
+                                    _cDetectPayload.value = waireData.payload.toUiVital()
+
+                                    android.util.Log.d(
+                                        "SharedViewModel: ",
+                                        "Heart rate: " + waireData.payload.heartRate.toString()
+                                    )
+                                    android.util.Log.d(
+                                        "SharedViewModel: ",
+                                        "Heart rate confidence: " + waireData.payload.heartRateConfidence.toString()
+                                    )
+                                    android.util.Log.d(
+                                        "SharedViewModel: ",
+                                        "batteryLevel: " + waireData.payload.batteryLevel.toString()
+                                    )
+                                    android.util.Log.d(
+                                        "SharedViewModel: ",
+                                        "coreBodyTemp00: " + waireData.payload.coreBodyTemp.toString()
+                                    )
+                                    android.util.Log.d(
+                                        "SharedViewModel: ",
+                                        "respiratory rate: " + waireData.payload.respirationRate.toString()
+                                    )
+                                    android.util.Log.d(
+                                        "SharedViewModel: ",
+                                        "respiratory confidence: " + waireData.payload.respirationRateConfidence.toString()
+                                    )
+                                    android.util.Log.d(
+                                        "SharedViewModel: ",
+                                        "Activity: " + waireData.payload.activity.toString()
+                                    )
+                                    android.util.Log.d(
+                                        "SharedViewModel: ",
+                                        "spO2: " + waireData.payload.spO2.toString()
+                                    )
+                                    android.util.Log.d(
+                                        "SharedViewModel confidence: ",
+                                        "spO2 confidencespO2Confidence " + waireData.payload.spO2Confidence.toString()
+                                    )
+                                }
+                                is WaireData.WaireDeviceInfo -> {
+                                    // Not impl'd yet
+                                }
+                                is WaireData.WaireSerial -> {
+                                    // Not impl'd yet
+                                }
+                            }
                         }
                     } catch (ex: WaireConnectionLostException) {
                         Log.d("BLE Exception", ex.toString())
