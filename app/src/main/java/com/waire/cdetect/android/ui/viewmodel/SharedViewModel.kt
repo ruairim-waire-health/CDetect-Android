@@ -2,7 +2,6 @@ package com.waire.cdetect.android.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.waire.cdetect.android.mapper.UiMapper.toUiVital
 import com.waire.cdetect.android.models.UiDevice
@@ -33,8 +32,11 @@ open class SharedViewModel @Inject constructor(application: Application) :
     private val _uiConnectState = MutableStateFlow<DeviceConnectState>(DeviceConnectState.Idle)
     val uiConnectState: StateFlow<DeviceConnectState> = _uiConnectState
 
-    private val _cDetectPayload: MutableLiveData<UiVital> = MutableLiveData()
-    val cDetectPayload: MutableLiveData<UiVital> = _cDetectPayload
+//    private val _cDetectPayload: MutableStateFlow<UiVital> = MutableStateFlow(UiVital())
+//    val cDetectPayload: StateFlow<UiVital> = _cDetectPayload
+
+    private val _cDetectPayload = MutableStateFlow(UiVital())
+    val cDetectPayload: StateFlow<UiVital> get() = _cDetectPayload
 
     fun setBoundService(waireSdkBoundService: BluetoothBoundService) {
         sdkBoundService = waireSdkBoundService
@@ -68,11 +70,13 @@ open class SharedViewModel @Inject constructor(application: Application) :
                     try {
                         val peripheral = result.data
                         _uiConnectState.value = DeviceConnectState.Success(peripheral)
+                        peripheral.disconnect()
                         peripheral.connect()
                         delay(3000)
                         peripheral.observeData { }.collect { waireData ->
                             when (waireData) {
                                 is WaireData.DevicePayload -> {
+
                                     _cDetectPayload.value = waireData.payload.toUiVital()
 
                                     android.util.Log.d(
@@ -121,7 +125,7 @@ open class SharedViewModel @Inject constructor(application: Application) :
                             }
                         }
                     } catch (ex: WaireConnectionLostException) {
-                        Log.d("BLE Exception", ex.toString())
+                        Log.d("BLE Exception", ex.message)
                     }
                 }
             is UiResult.Error ->

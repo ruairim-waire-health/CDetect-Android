@@ -1,23 +1,24 @@
 package com.waire.cdetect.android.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BatteryFull
+import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.waire.cdetect.android.R
 import com.waire.cdetect.android.ui.composables.LoadingCard
+import com.waire.cdetect.android.ui.composables.VitalView
 import com.waire.cdetect.android.ui.state.DeviceConnectState
-import com.waire.cdetect.android.ui.state.DeviceScanState
 import com.waire.cdetect.android.ui.theme.grid_4
 import com.waire.cdetect.android.ui.theme.grid_6
 import com.waire.cdetect.android.ui.theme.grid_8
@@ -30,7 +31,9 @@ fun VitalsScreen(
     navController: NavHostController
 ) {
     val connectState = sharedViewModel.uiConnectState.collectAsState().value
-    val payload = sharedViewModel.cDetectPayload.value
+    val payload by sharedViewModel.cDetectPayload.collectAsState()
+
+
 
     Column(
         modifier = modifier.padding(vertical = grid_8, horizontal = grid_6),
@@ -45,11 +48,28 @@ fun VitalsScreen(
                 .padding(end = grid_4)
                 .padding(grid_8),
         )
-        when(connectState) {
+        when (connectState) {
             is DeviceConnectState.Loading -> LoadingCard(modifier = Modifier.fillMaxWidth())
             is DeviceConnectState.Success -> {
-                Text(text = payload.toString())
-                Log.d("VitalsScreen", "VitalsScreen: $payload")
+
+                VitalView(
+                    vitalIcon = Icons.Default.MonitorHeart,
+                    vitalValue = payload.heartRate,
+                    vitalLabel = "Heart rate",
+                    vitalUnit = " bpm"
+                )
+                VitalView(
+                    vitalIcon = Icons.Default.BatteryFull,
+                    vitalValue = payload.batteryLevel,
+                    vitalLabel = "Battery level",
+                    vitalUnit = " %"
+                )
+                VitalView(
+                    vitalIcon = Icons.Default.MonitorHeart,
+                    vitalValue = payload.spO2,
+                    vitalLabel = "Spo2",
+                    vitalUnit = " brpm"
+                )
             }
             is DeviceConnectState.Error -> TODO()
             DeviceConnectState.Idle -> {
