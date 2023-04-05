@@ -9,6 +9,7 @@ import com.waire.cdetect.android.models.UiVital
 import com.waire.cdetect.android.ui.state.DeviceConnectState
 import com.waire.cdetect.android.ui.state.DeviceScanState
 import com.wairehealth.androiddevelopmentkit.BluetoothBoundService
+import com.wairehealth.androiddevelopmentkit.Models.Devices.DiscoveredDevice
 import com.wairehealth.androiddevelopmentkit.Utilites.Log
 import com.wairehealth.androiddevelopmentkit.api.WaireConnectionLostException
 import com.wairehealth.androiddevelopmentkit.api.WaireData
@@ -31,9 +32,6 @@ open class SharedViewModel @Inject constructor(application: Application) :
 
     private val _uiConnectState = MutableStateFlow<DeviceConnectState>(DeviceConnectState.Idle)
     val uiConnectState: StateFlow<DeviceConnectState> = _uiConnectState
-
-//    private val _cDetectPayload: MutableStateFlow<UiVital> = MutableStateFlow(UiVital())
-//    val cDetectPayload: StateFlow<UiVital> = _cDetectPayload
 
     private val _cDetectPayload = MutableStateFlow(UiVital())
     val cDetectPayload: StateFlow<UiVital> get() = _cDetectPayload
@@ -61,6 +59,10 @@ open class SharedViewModel @Inject constructor(application: Application) :
         }
     }
 
+    fun makeAnotherReq() {
+        sdkBoundService.requestDeviceInfo()
+    }
+
     fun onDeviceSelectedUsingBoundedService(device: UiDevice) {
         when (val result = runCatching {
             sdkBoundService.connectToDeviceFromBoundedService(device.address)
@@ -70,8 +72,12 @@ open class SharedViewModel @Inject constructor(application: Application) :
                     try {
                         val peripheral = result.data
                         _uiConnectState.value = DeviceConnectState.Success(peripheral)
-                        peripheral.disconnect()
-                        peripheral.connect()
+                        sdkBoundService.connectToDevice(
+                            DiscoveredDevice(
+                            peripheral = result.data
+                        ))
+//                        peripheral.disconnect()
+//                        peripheral.connect()
                         delay(3000)
                         peripheral.observeData { }.collect { waireData ->
                             when (waireData) {
