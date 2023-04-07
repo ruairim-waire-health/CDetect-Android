@@ -1,16 +1,14 @@
 package com.waire.cdetect.android.mapper
 
-import com.waire.cdetect.android.models.UiDevice
 import com.waire.cdetect.android.models.UiVital
 import com.wairehealth.androiddevelopmentkit.Models.Devices.CDetectPayload
-import com.wairehealth.androiddevelopmentkit.api.Advertisement
 
 object UiMapper {
-    fun Advertisement.toUiDevice() = UiDevice(
-        name = name ?: "Unknown",
-        rssi = rssi,
-        address = address
-    )
+//    fun Advertisement.toUiDevice() = UiDevice(
+//        name = name ?: "Unknown",
+//        rssi = rssi,
+//        address = address
+//    )
 
     fun CDetectPayload.toUiVital() = UiVital(
         greenCounter = greenCounter.toString(),

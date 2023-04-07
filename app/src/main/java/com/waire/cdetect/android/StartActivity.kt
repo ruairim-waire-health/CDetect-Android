@@ -15,36 +15,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.waire.cdetect.android.permissions.PermissionsHandler
 import com.waire.cdetect.android.ui.theme.CDetectAndroidTheme
 import com.waire.cdetect.android.ui.viewmodel.SharedViewModel
-import com.wairehealth.androiddevelopmentkit.BluetoothBoundService
+import com.wairehealth.androiddevelopmentkit.Callbacks.Device.WaireDeviceDelegate
+import com.wairehealth.androiddevelopmentkit.Callbacks.Manager.WaireBluetoothManagerDelegate
+import com.wairehealth.androiddevelopmentkit.Models.Devices.CDetectPayload
+import com.wairehealth.androiddevelopmentkit.Models.Devices.CDetectPeripheral
+import com.wairehealth.androiddevelopmentkit.Models.Devices.DiscoveredDevice
+import com.wairehealth.androiddevelopmentkit.Models.Enums.DeviceState
+import com.wairehealth.androiddevelopmentkit.Services.WaireBluetoothService
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StartActivity : ComponentActivity() {
+class StartActivity : ComponentActivity(), WaireBluetoothManagerDelegate, WaireDeviceDelegate {
 
     private val sharedViewModel: SharedViewModel by viewModels()
 
-    var waireSdkBoundService: BluetoothBoundService? = null
+    var waireSdkService: WaireBluetoothService? = null
     var isBound: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindService()
-//        setContent {
-//            if (waireSdkBoundService != null) {
-//                CDetectAndroidTheme {
-//                    PermissionsHandler(sharedViewModel)
-//                }
-//            } else {
-//                Log.d(javaClass.simpleName, "onCreate: Cannot proceed until Bound service has been started")
-//            }
-//        }
     }
 
     /**
      * Used to bind to our service class
      */
     private fun bindService() {
-        Intent(this, BluetoothBoundService::class.java).also { intent ->
+        Intent(this, WaireBluetoothService::class.java).also { intent ->
             bindService(intent, myBleServiceConnection, Context.BIND_AUTO_CREATE)
         }
     }
@@ -53,7 +50,7 @@ class StartActivity : ComponentActivity() {
      * Used to unbind and stop our service class
      */
     private fun unbindService() {
-        Intent(this, BluetoothBoundService::class.java).also { intent ->
+        Intent(this, WaireBluetoothService::class.java).also { intent ->
             unbindService(myBleServiceConnection)
         }
     }
@@ -61,10 +58,10 @@ class StartActivity : ComponentActivity() {
     private val myBleServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName?, service: IBinder?) {
             Log.d(javaClass.simpleName, "ServiceConnection: connected to service.")
-            val binder = service as BluetoothBoundService.CDetectBinder
-            waireSdkBoundService = binder.getService()
+            val binder = service as WaireBluetoothService.LocalBinder
+            waireSdkService = binder.getServerInstance()
             isBound = true
-            sharedViewModel.setBoundService(waireSdkBoundService!!)
+            sharedViewModel.setBoundService(waireSdkService!!)
 
             setContent {
                 CDetectAndroidTheme {
@@ -77,6 +74,34 @@ class StartActivity : ComponentActivity() {
             Log.d(javaClass.simpleName, "ServiceConnection: disconnected from service.")
             isBound = false
         }
+    }
+
+    override fun deviceStateDidChange(device: CDetectPeripheral, state: DeviceState) {
+        TODO("Not yet implemented")
+    }
+
+    override fun readingsDidChange(device: CDetectPeripheral, readings: CDetectPayload) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDeviceConnected(device: CDetectPeripheral) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDeviceDisconnected(device: CDetectPeripheral) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDeviceDiscovered(device: DiscoveredDevice) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDeviceFailedToConnect(device: CDetectPeripheral, reason: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFinishedScanning() {
+        TODO("Not yet implemented")
     }
 }
 

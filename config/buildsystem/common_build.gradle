@@ -101,6 +101,6 @@ dependencies {
 
     // sdk
     // Note: disabling for development, using publishing to mavenLocal() instead
-//    implementation(Deps.androidSDK)
+    // implementation(Deps.androidSDK)
     implementation 'com.wairehealth.androiddevelopmentsdk:wairehealth-android-sdk:2.0.0'
 }

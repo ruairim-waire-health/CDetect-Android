@@ -12,10 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.waire.cdetect.android.R
-import com.waire.cdetect.android.mapper.UiMapper.toUiDevice
 import com.waire.cdetect.android.models.UiDevice
 import com.waire.cdetect.android.ui.composables.DeviceListCard
 import com.waire.cdetect.android.ui.composables.LoadingCard
@@ -51,13 +49,13 @@ fun StartScreen(
         when (scanState) {
             is DeviceScanState.Loading ->
                 LoadingCard(modifier = Modifier.fillMaxWidth())
-            is DeviceScanState.Success ->
-                DeviceListCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    devices = mutableListOf(scanState.devices.toUiDevice()),
-                    onDeviceSelected = onDeviceSelected,
-                    navController = navController
-                )
+//            is DeviceScanState.Success ->
+//                DeviceListCard(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    devices = mutableListOf(scanState.devices.toUiDevice()),
+//                    onDeviceSelected = onDeviceSelected,
+//                    navController = navController
+//                )
             is DeviceScanState.Error -> {
                 Text(text = "Oops!: ${scanState.exception.message}")
             }
@@ -69,7 +67,8 @@ fun StartScreen(
 
         FloatingActionButton(
             modifier = Modifier.size(grid_21),
-            onClick = { sharedViewModel.startScanFromBoundedService() },
+//            onClick = { sharedViewModel.startScanFromBoundedService() },
+            onClick = {  },
             backgroundColor = MaterialTheme.colors.surface
         ) {
             Icon(
@@ -82,27 +81,4 @@ fun StartScreen(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun Preview_NewIdeaCard() {
-//    val idea = IdeaDomain(
-//        name = "Learn to dance",
-//        type = Type.Charity,
-//        participantCount = 2,
-//        price = 0.1f,
-//        accessibility = 0.2f,
-//        key = "234244",
-//        link = "www.dance.com"
-//    )
-//    MaterialTheme {
-//        NewIdeaCard(
-//            modifier = Modifier.fillMaxWidth(),
-//            idea = idea,
-//            isFavourite = false,
-//            onFavouriteClick = { },
-//            onLinkClick = { }
-//        )
-//    }
 }

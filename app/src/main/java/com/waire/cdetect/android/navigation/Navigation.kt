@@ -16,9 +16,6 @@ fun Navigation(
     navController: NavHostController,
     sharedViewModel: SharedViewModel
 ) {
-
-//    val viewModel: SharedViewModel = viewModel()
-
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -31,7 +28,8 @@ fun Navigation(
             composable(Navigator.Start.path) {
                 StartScreen(
                     modifier = modifier,
-                    onDeviceSelected = { sharedViewModel.onDeviceSelectedUsingBoundedService(it) },
+//                    onDeviceSelected = { sharedViewModel.onDeviceSelectedUsingBoundedService(it) },
+                    onDeviceSelected = { },
                     sharedViewModel = sharedViewModel,
                     navController = navController
                 )

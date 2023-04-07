@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name="com.wairehealth.androiddevelopmentkit.BluetoothBoundService"
+            android:name="com.wairehealth.androiddevelopmentkit.Services.WaireBluetoothService"
             android:enabled="true"
             android:exported="true" />
     </application>

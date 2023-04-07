@@ -53,32 +53,35 @@ fun VitalsScreen(
                     .padding(end = grid_4)
                     .padding(grid_8),
             )
-            Button(onClick = { sharedViewModel.makeAnotherReq() }) {
+            Button(onClick = {
+//                sharedViewModel.makeAnotherReq()
+
+            }) {
                 Text(text = "make another request")
             }
             when (connectState) {
                 is DeviceConnectState.Loading -> LoadingCard(modifier = Modifier.fillMaxWidth())
-                is DeviceConnectState.Success -> {
-
-                    VitalView(
-                        vitalIcon = Icons.Default.MonitorHeart,
-                        vitalValue = payload.heartRate,
-                        vitalLabel = "Heart rate",
-                        vitalUnit = " bpm"
-                    )
-                    VitalView(
-                        vitalIcon = Icons.Default.BatteryFull,
-                        vitalValue = payload.batteryLevel,
-                        vitalLabel = "Battery level",
-                        vitalUnit = " %"
-                    )
-                    VitalView(
-                        vitalIcon = Icons.Default.MonitorHeart,
-                        vitalValue = payload.spO2,
-                        vitalLabel = "Spo2",
-                        vitalUnit = " brpm"
-                    )
-                }
+//                is DeviceConnectState.Success -> {
+//
+//                    VitalView(
+//                        vitalIcon = Icons.Default.MonitorHeart,
+//                        vitalValue = payload.heartRate,
+//                        vitalLabel = "Heart rate",
+//                        vitalUnit = " bpm"
+//                    )
+//                    VitalView(
+//                        vitalIcon = Icons.Default.BatteryFull,
+//                        vitalValue = payload.batteryLevel,
+//                        vitalLabel = "Battery level",
+//                        vitalUnit = " %"
+//                    )
+//                    VitalView(
+//                        vitalIcon = Icons.Default.MonitorHeart,
+//                        vitalValue = payload.spO2,
+//                        vitalLabel = "Spo2",
+//                        vitalUnit = " brpm"
+//                    )
+//                }
                 is DeviceConnectState.Error -> TODO()
                 DeviceConnectState.Idle -> {
                     // NO_OP
