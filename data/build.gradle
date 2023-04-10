@@ -13,7 +13,6 @@ android {
         minSdk AppConfig.minSdkVersion
         targetSdk AppConfig.targetSdkVersion
 
-        testInstrumentationRunner AppConfig.testInstrumentationRunner
         consumerProguardFiles AppConfig.consumerProguardFiles
     }
 
